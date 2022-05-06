@@ -528,6 +528,17 @@ local function CreateNewDrop(source, fromSlot, toSlot, itemAmount)
 	end
 end
 
+-- K9 Script
+local function HasItem(list, item)
+	for i = 1, #list do
+
+		if item == list[i] then
+			return true
+		end
+	end
+	return false
+end
+
 -- Events
 
 RegisterNetEvent('inventory:server:addTrunkItems', function(plate, items)
@@ -1453,6 +1464,53 @@ RegisterServerEvent("inventory:server:GiveItem", function(target, name, amount, 
 	else
 		TriggerClientEvent('QBCore:Notify', src, "You do not have enough items to transfer")
 	end
+end)
+
+-- K9 Script
+AddEventHandler("inventory:server:SearchLocalVehicleInventory", function(plate, list, cb)
+    local trunk = Trunks[plate]
+    local glovebox = Gloveboxes[plate]
+    local result = false
+
+    if trunk ~= nil then
+        for k, v in pairs(trunk.items) do
+            local ITEM = trunk.items[k].name
+            if HasItem(list, ITEM) then
+                RESULT = true
+            end
+        end
+    else
+        trunk = GetOwnedVehicleItems(plate)
+
+        for k, v in pairs(TRUNK) do
+
+            local ITEM = TRUNK[k].name
+            if HasItem(list, ITEM) then
+                RESULT = true
+            end
+        end
+
+    end
+
+    if glovebox ~= nil then
+        for k, v in pairs(glovebox.items) do
+
+            local ITEM = glovebox.items[k].name
+            if HasItem(list, ITEM) then
+                RESULT = true
+            end
+        end
+    else
+        glovebox = GetOwnedVehicleGloveboxItems(plate)
+
+        for k, v in pairs(glovebox) do
+            local ITEM = glovebox[k].name
+            if HasItem(list, ITEM) then
+                RESULT = true
+            end
+        end
+    end
+    cb(RESULT)
 end)
 
 -- callback
