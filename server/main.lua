@@ -1474,44 +1474,44 @@ AddEventHandler("inventory:server:SearchLocalVehicleInventory", function(plate, 
     local result = false
 
     if trunk ~= nil then
-        for k, v in pairs(trunk.items) do
-            local ITEM = trunk.items[k].name
-            if HasItem(list, ITEM) then
-                RESULT = true
+        for k, _ in pairs(trunk.items) do
+            local item = trunk.items[k].name
+            if HasItem(list, item) then
+                result = true
             end
         end
     else
         trunk = GetOwnedVehicleItems(plate)
 
-        for k, v in pairs(TRUNK) do
+        for k, _ in pairs(trunk) do
 
-            local ITEM = TRUNK[k].name
-            if HasItem(list, ITEM) then
-                RESULT = true
+            local item = trunk[k].name
+            if HasItem(list, item) then
+                result = true
             end
         end
 
     end
 
     if glovebox ~= nil then
-        for k, v in pairs(glovebox.items) do
+        for k, _ in pairs(glovebox.items) do
 
-            local ITEM = glovebox.items[k].name
-            if HasItem(list, ITEM) then
-                RESULT = true
+            local item = glovebox.items[k].name
+            if HasItem(list, item) then
+                result = true
             end
         end
     else
         glovebox = GetOwnedVehicleGloveboxItems(plate)
 
-        for k, v in pairs(glovebox) do
-            local ITEM = glovebox[k].name
-            if HasItem(list, ITEM) then
-                RESULT = true
+        for k, _ in pairs(glovebox) do
+            local item = glovebox[k].name
+            if HasItem(list, item) then
+                result = true
             end
         end
     end
-    cb(RESULT)
+    cb(result)
 end)
 
 -- callback
